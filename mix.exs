@@ -59,7 +59,22 @@ defmodule Rpi4MouseUi.MixProject do
       setup: ["deps.get", "assets.setup", "assets.build"],
       "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
       "assets.build": ["tailwind default", "esbuild default"],
-      "assets.deploy": ["tailwind default --minify", "esbuild default --minify", "phx.digest"]
+      "assets.deploy": ["tailwind default --minify", "esbuild default --minify", "phx.digest"],
+      "ui.compile": [&ui_compile/1]
     ]
+  end
+
+  defp ui_compile(_args) do
+    Mix.shell().info("""
+
+    mix ui.compile start...
+    MIX_TARGET: #{System.get_env("MIX_TARGET") || Mix.target()}
+    MIX_ENV:    #{System.get_env("MIX_ENV") || Mix.env()}
+    """)
+
+    {_, 0} = System.cmd("mix", ["deps.get"], into: IO.stream(:stdio, :line))
+    {_, 0} = System.cmd("mix", ["deps.compile"], into: IO.stream(:stdio, :line))
+    {_, 0} = System.cmd("mix", ["assets.setup"], into: IO.stream(:stdio, :line))
+    {_, 0} = System.cmd("mix", ["assets.deploy"], into: IO.stream(:stdio, :line))
   end
 end
