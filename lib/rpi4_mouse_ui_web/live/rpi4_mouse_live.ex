@@ -22,8 +22,8 @@ defmodule Rpi4MouseUiWeb.Rpi4MouseLive do
           <MouseComponents.speed_gauge_r></MouseComponents.speed_gauge_r>
           <MouseComponents.pwm_hz_l pwm_hz={@left_motor_state.pwm_hz} />
           <MouseComponents.pwm_hz_r pwm_hz={@right_motor_state.pwm_hz} />
-          <MouseComponents.velocity_l velocity={@left_motor_state.velocity} />
-          <MouseComponents.velocity_r velocity={@right_motor_state.velocity} />
+          <MouseComponents.velocity_l velocity={round_velocity(@left_motor_state.velocity)} />
+          <MouseComponents.velocity_r velocity={round_velocity(@right_motor_state.velocity)} />
         </div>
       </div>
       <div class="flex flex-col">
@@ -40,9 +40,9 @@ defmodule Rpi4MouseUiWeb.Rpi4MouseLive do
     initial_assigns = %{
       buzzer_tone: 0,
       is_motor_enable?: false,
-      left_motor_state: %{coeff: -1, device: nil, pwm_hz: 0, velocity: 0},
+      left_motor_state: %{coeff: -1, device: nil, pwm_hz: 0, velocity: 0.0},
       light_sensors_values: %{fl: 0, fr: 0, l: 0, r: 0},
-      right_motor_state: %{coeff: 1, device: nil, pwm_hz: 0, velocity: 0}
+      right_motor_state: %{coeff: 1, device: nil, pwm_hz: 0, velocity: 0.0}
     }
 
     {:ok, assign(socket, initial_assigns)}
@@ -59,5 +59,13 @@ defmodule Rpi4MouseUiWeb.Rpi4MouseLive do
         socket
       ) do
     {:noreply, assign(socket, message)}
+  end
+
+  defp round_velocity(velocity) when is_integer(velocity) do
+    0.0
+  end
+
+  defp round_velocity(velocity) when is_float(velocity) do
+    Float.round(velocity, 1)
   end
 end
