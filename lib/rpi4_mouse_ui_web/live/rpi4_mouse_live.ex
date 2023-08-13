@@ -83,12 +83,9 @@ defmodule Rpi4MouseUiWeb.Rpi4MouseLive do
   end
 
   defp momo_test_src(html_file_name \\ "test.html") do
-    case :inet.gethostbyname(~c"nerves.local") do
-      {:ok, {:hostent, ~c"nerves.local", [], :inet, 4, [{127, 0, 0, 1}]}} ->
-        "http://nerves.local:8080/html/#{html_file_name}"
-
-      _ ->
-        "http://localhost:8080/html/#{html_file_name}"
+    case Application.get_env(:rpi4_mouse_ui, :target, :host) do
+      :host -> "http://localhost:8080/html/#{html_file_name}"
+      _ -> "http://nerves.local:8080/html/#{html_file_name}"
     end
   end
 end
