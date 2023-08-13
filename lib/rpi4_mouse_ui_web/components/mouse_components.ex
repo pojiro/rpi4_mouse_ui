@@ -45,10 +45,10 @@ defmodule Rpi4MouseUiWeb.MouseComponents do
 
   def light_sensors(assigns) do
     ~H"""
-    <.light_sensor location="left-[-30px] top-[50px]"><%= @values.l %></.light_sensor>
-    <.light_sensor location="left-[90px] top-[0px]"><%= @values.fl %></.light_sensor>
-    <.light_sensor location="right-[90px] top-[0px]"><%= @values.fr %></.light_sensor>
-    <.light_sensor location="right-[-30px] top-[50px]"><%= @values.r %></.light_sensor>
+    <.light_sensor location="left-[-30px] top-[50px]"><%= @values.fl %></.light_sensor>
+    <.light_sensor location="left-[90px] top-[0px]"><%= @values.l %></.light_sensor>
+    <.light_sensor location="right-[90px] top-[0px]"><%= @values.r %></.light_sensor>
+    <.light_sensor location="right-[-30px] top-[50px]"><%= @values.fr %></.light_sensor>
     """
   end
 
