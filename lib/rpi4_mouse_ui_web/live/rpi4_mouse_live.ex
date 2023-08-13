@@ -7,9 +7,9 @@ defmodule Rpi4MouseUiWeb.Rpi4MouseLive do
 
   def render(assigns) do
     ~H"""
-    <div class="flex">
-      <div class="w-[365px] h-[526px] mr-[70px]">
-        <div class="bg-[url('../images/mouse.png')] w-full h-full relative">
+    <div class="flex gap-x-[70px]">
+      <div>
+        <div class="bg-[url('../images/mouse.png')] w-[365px] h-[526px] relative">
           <MouseComponents.led3></MouseComponents.led3>
           <MouseComponents.led2></MouseComponents.led2>
           <MouseComponents.led1></MouseComponents.led1>
