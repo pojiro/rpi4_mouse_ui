@@ -7,7 +7,7 @@ defmodule Rpi4MouseUiWeb.Rpi4MouseLive do
 
   def render(assigns) do
     ~H"""
-    <div class="flex gap-x-[70px]">
+    <div class="flex gap-x-[50px]">
       <div>
         <div class="bg-[url('../images/mouse.png')] w-[365px] h-[526px] relative">
           <MouseComponents.led3></MouseComponents.led3>
@@ -29,6 +29,7 @@ defmodule Rpi4MouseUiWeb.Rpi4MouseLive do
       <div class="flex flex-col">
         <MouseComponents.motor_enable is_motor_enable?={@is_motor_enable?} />
         <MouseComponents.buzzer_tone busser_tone={@buzzer_tone} />
+        <iframe src={momo_test_src()} class="w-[380px] h-[380px]" />
       </div>
     </div>
     """
@@ -67,5 +68,15 @@ defmodule Rpi4MouseUiWeb.Rpi4MouseLive do
 
   defp round_velocity(velocity) when is_float(velocity) do
     Float.round(velocity, 1)
+  end
+
+  defp momo_test_src() do
+    case :inet.gethostbyname(~c"nerves.local") do
+      {:ok, {:hostent, ~c"nerves.local", [], :inet, 4, [{127, 0, 0, 1}]}} ->
+        "http://nerves.local:8080/html/test.html"
+
+      _ ->
+        "http://localhost:8080/html/test.html"
+    end
   end
 end
