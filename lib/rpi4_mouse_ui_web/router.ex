@@ -17,7 +17,7 @@ defmodule Rpi4MouseUiWeb.Router do
   scope "/", Rpi4MouseUiWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    live "/", Rpi4MouseLive
   end
 
   # Other scopes may use custom stacks.
