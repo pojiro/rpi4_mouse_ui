@@ -110,7 +110,7 @@ defmodule Rpi4MouseUiWeb.MouseComponents do
 
   def motor_enable(assigns) do
     ~H"""
-    <div class={["w-[200px] h-[50px] text-black font-mono font-bold text-2xl grid grid-cols-2"]}>
+    <div class={["w-[250px] h-[50px] text-black font-mono font-bold text-2xl grid grid-cols-2"]}>
       <p class="text-left">Motor</p>
       <%= if @is_motor_enable? do %>
         <p class="text-right text-green-500">Enable</p>
@@ -123,7 +123,7 @@ defmodule Rpi4MouseUiWeb.MouseComponents do
 
   def buzzer_tone(assigns) do
     ~H"""
-    <div class={["w-[200px] h-[50px] text-black font-mono font-bold text-2xl grid grid-cols-2"]}>
+    <div class={["w-[250px] h-[50px] text-black font-mono font-bold text-2xl grid grid-cols-2"]}>
       <p class="text-left">Buzzer</p>
       <p class="text-right"><%= @busser_tone %> Hz</p>
     </div>
