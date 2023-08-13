@@ -29,7 +29,19 @@ defmodule Rpi4MouseUiWeb.Rpi4MouseLive do
       <div class="flex flex-col">
         <MouseComponents.motor_enable is_motor_enable?={@is_motor_enable?} />
         <MouseComponents.buzzer_tone busser_tone={@buzzer_tone} />
-        <iframe src={momo_test_src()} class="w-[380px] h-[380px]" />
+        <!--
+          test.html の
+          <video id="remote_video" autoplay style="border: 3px solid gray;"></video> に
+          width: 350px; を加えたファイル w350.html を作成すること
+        -->
+        <iframe src={momo_test_src("w350.html")} class="w-[380px] h-[380px]" />
+        <a
+          href={momo_test_src()}
+          target="_blank"
+          class="w-24 rounded mt-2 p-2 bg-blue-500 text-bold text-white text-center self-end"
+        >
+          Open Tab
+        </a>
       </div>
     </div>
     """
@@ -70,13 +82,13 @@ defmodule Rpi4MouseUiWeb.Rpi4MouseLive do
     Float.round(velocity, 1)
   end
 
-  defp momo_test_src() do
+  defp momo_test_src(html_file_name \\ "test.html") do
     case :inet.gethostbyname(~c"nerves.local") do
       {:ok, {:hostent, ~c"nerves.local", [], :inet, 4, [{127, 0, 0, 1}]}} ->
-        "http://nerves.local:8080/html/test.html"
+        "http://nerves.local:8080/html/#{html_file_name}"
 
       _ ->
-        "http://localhost:8080/html/test.html"
+        "http://localhost:8080/html/#{html_file_name}"
     end
   end
 end
