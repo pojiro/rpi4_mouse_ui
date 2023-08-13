@@ -18,8 +18,8 @@ defmodule Rpi4MouseUiWeb.Rpi4MouseLive do
           <MouseComponents.sw1></MouseComponents.sw1>
           <MouseComponents.sw2></MouseComponents.sw2>
           <MouseComponents.light_sensors values={@light_sensors_values} />
-          <MouseComponents.speed_gauge_l></MouseComponents.speed_gauge_l>
-          <MouseComponents.speed_gauge_r></MouseComponents.speed_gauge_r>
+          <MouseComponents.speed_gauge_l velocity={round_velocity(@left_motor_state.velocity)} />
+          <MouseComponents.speed_gauge_r velocity={round_velocity(@right_motor_state.velocity)} />
           <MouseComponents.pwm_hz_l pwm_hz={@left_motor_state.pwm_hz} />
           <MouseComponents.pwm_hz_r pwm_hz={@right_motor_state.pwm_hz} />
           <MouseComponents.velocity_l velocity={round_velocity(@left_motor_state.velocity)} />

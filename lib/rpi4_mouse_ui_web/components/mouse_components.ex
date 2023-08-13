@@ -66,14 +66,50 @@ defmodule Rpi4MouseUiWeb.MouseComponents do
 
   def speed_gauge_l(assigns) do
     ~H"""
-    <.speed_gauge_impl location="top-[250px] left-[0px] -translate-x-full"></.speed_gauge_impl>
+    <.speed_gauge_impl
+      location="top-[250px] left-[0px] -translate-x-full"
+      height={"#{to_height_px(@velocity)}"}
+      top={"#{to_top_px(@velocity)}"}
+      bg_color={"#{to_color(@velocity)}"}
+    />
     """
   end
 
   def speed_gauge_r(assigns) do
     ~H"""
-    <.speed_gauge_impl location="top-[250px] right-[0px] translate-x-full"></.speed_gauge_impl>
+    <.speed_gauge_impl
+      location="top-[250px] right-[0px] translate-x-full"
+      height={"#{to_height_px(@velocity)}"}
+      top={"#{to_top_px(@velocity)}"}
+      bg_color={"#{to_color(@velocity)}"}
+    />
     """
+  end
+
+  defp speed_gauge_impl(assigns) do
+    ~H"""
+    <div
+      class={["absolute w-[30px] bg-green-500", @location]}
+      style={["height: #{@height}; top: #{@top}; background-color: #{@bg_color}"]}
+    >
+    </div>
+    """
+  end
+
+  defp to_height_px(velocity) do
+    "#{round(abs(velocity) / 26.9 * 150)}px"
+  end
+
+  defp to_top_px(velocity) do
+    if velocity > 0 do
+      "#{250 - round(abs(velocity) / 26.9 * 150)}px"
+    else
+      "250 px"
+    end
+  end
+
+  defp to_color(velocity) do
+    if velocity > 0, do: "rgb(37 99 235)", else: "rgb(220 38 38)"
   end
 
   def pwm_hz_l(assigns) do
@@ -153,12 +189,6 @@ defmodule Rpi4MouseUiWeb.MouseComponents do
     ]}>
       <%= render_slot(@inner_block) %> Hz
     </div>
-    """
-  end
-
-  defp speed_gauge_impl(assigns) do
-    ~H"""
-    <div class={["absolute w-[50px] h-[100px] scale-y-[1.5] bg-green-500", @location]}></div>
     """
   end
 
