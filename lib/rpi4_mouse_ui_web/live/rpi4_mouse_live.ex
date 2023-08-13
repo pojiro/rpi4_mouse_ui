@@ -38,7 +38,7 @@ defmodule Rpi4MouseUiWeb.Rpi4MouseLive do
         <a
           href={momo_test_src()}
           target="_blank"
-          class="w-24 rounded mt-2 p-2 bg-blue-500 text-bold text-white text-center self-end"
+          class="w-24 rounded m-2 p-2 bg-blue-500 text-bold text-white text-center"
         >
           Open Tab
         </a>
