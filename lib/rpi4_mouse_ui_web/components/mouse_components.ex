@@ -3,44 +3,64 @@ defmodule Rpi4MouseUiWeb.MouseComponents do
 
   def led0(assigns) do
     ~H"""
-    <.led_impl location="left-[252px] top-[57px]"></.led_impl>
+    <.led_impl location="left-[252px] top-[57px]" bg_color={led_bg_color(@value)} />
     """
   end
 
   def led1(assigns) do
     ~H"""
-    <.led_impl location="left-[197px] top-[40px]"></.led_impl>
+    <.led_impl location="left-[197px] top-[40px]" bg_color={led_bg_color(@value)} />
     """
   end
 
   def led2(assigns) do
     ~H"""
-    <.led_impl location="left-[147px] top-[40px]"></.led_impl>
+    <.led_impl location="left-[147px] top-[40px]" bg_color={led_bg_color(@value)} />
     """
   end
 
   def led3(assigns) do
     ~H"""
-    <.led_impl location="left-[95px] top-[57px]"></.led_impl>
+    <.led_impl location="left-[95px] top-[57px]" bg_color={led_bg_color(@value)} />
     """
+  end
+
+  defp led_impl(assigns) do
+    ~H"""
+    <div class={["rounded-full w-[20px] h-[20px] absolute", @location, @bg_color]}></div>
+    """
+  end
+
+  defp led_bg_color(on_off) when is_boolean(on_off) do
+    if on_off, do: "bg-red-500", else: "bg-transparent"
   end
 
   def sw0(assigns) do
     ~H"""
-    <.sw_impl location="left-[14px] top-[160px]"></.sw_impl>
+    <.sw_impl location="left-[14px] top-[160px]" bg_color={sw_bg_color(@value)} />
     """
   end
 
   def sw1(assigns) do
     ~H"""
-    <.sw_impl location="left-[14px] top-[220px]"></.sw_impl>
+    <.sw_impl location="left-[14px] top-[220px]" bg_color={sw_bg_color(@value)} />
     """
   end
 
   def sw2(assigns) do
     ~H"""
-    <.sw_impl location="left-[14px] top-[280px]"></.sw_impl>
+    <.sw_impl location="left-[14px] top-[280px]" bg_color={sw_bg_color(@value)} />
     """
+  end
+
+  defp sw_impl(assigns) do
+    ~H"""
+    <div class={["rounded-full w-[20px] h-[20px] absolute", @location, @bg_color]}></div>
+    """
+  end
+
+  defp sw_bg_color(on_off) when is_boolean(on_off) do
+    if on_off, do: "bg-blue-500", else: "bg-transparent"
   end
 
   def light_sensors(assigns) do
@@ -189,18 +209,6 @@ defmodule Rpi4MouseUiWeb.MouseComponents do
     ]}>
       <%= render_slot(@inner_block) %> Hz
     </div>
-    """
-  end
-
-  defp led_impl(assigns) do
-    ~H"""
-    <div class={["rounded-full w-[20px] h-[20px] bg-red-500 absolute", @location]}></div>
-    """
-  end
-
-  defp sw_impl(assigns) do
-    ~H"""
-    <div class={["rounded-full w-[20px] h-[20px] bg-blue-500 absolute", @location]}></div>
     """
   end
 end

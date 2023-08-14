@@ -10,13 +10,13 @@ defmodule Rpi4MouseUiWeb.Rpi4MouseLive do
     <div class="flex gap-x-[50px]">
       <div>
         <div class="bg-[url('../images/mouse.png')] w-[365px] h-[526px] relative">
-          <MouseComponents.led3></MouseComponents.led3>
-          <MouseComponents.led2></MouseComponents.led2>
-          <MouseComponents.led1></MouseComponents.led1>
-          <MouseComponents.led0></MouseComponents.led0>
-          <MouseComponents.sw0></MouseComponents.sw0>
-          <MouseComponents.sw1></MouseComponents.sw1>
-          <MouseComponents.sw2></MouseComponents.sw2>
+          <MouseComponents.led0 value={@leds_values.led0} />
+          <MouseComponents.led1 value={@leds_values.led1} />
+          <MouseComponents.led2 value={@leds_values.led2} />
+          <MouseComponents.led3 value={@leds_values.led3} />
+          <MouseComponents.sw0 value={@switches_values.switch0} />
+          <MouseComponents.sw1 value={@switches_values.switch1} />
+          <MouseComponents.sw2 value={@switches_values.switch2} />
           <MouseComponents.light_sensors values={@light_sensors_values} />
           <MouseComponents.speed_gauge_l velocity={round_velocity(@left_motor_state.velocity)} />
           <MouseComponents.speed_gauge_r velocity={round_velocity(@right_motor_state.velocity)} />
@@ -53,9 +53,11 @@ defmodule Rpi4MouseUiWeb.Rpi4MouseLive do
     initial_assigns = %{
       buzzer_tone: 0,
       is_motor_enable?: false,
+      leds_values: %{led0: false, led1: false, led2: false, led3: false},
       left_motor_state: %{coeff: -1, device: nil, pwm_hz: 0, velocity: 0.0},
       light_sensors_values: %{fl: 0, fr: 0, l: 0, r: 0},
-      right_motor_state: %{coeff: 1, device: nil, pwm_hz: 0, velocity: 0.0}
+      right_motor_state: %{coeff: 1, device: nil, pwm_hz: 0, velocity: 0.0},
+      switches_values: %{switch0: false, switch1: false, switch2: false}
     }
 
     {:ok, assign(socket, initial_assigns)}
@@ -65,9 +67,11 @@ defmodule Rpi4MouseUiWeb.Rpi4MouseLive do
         %{
           buzzer_tone: _buzzer_tone,
           is_motor_enable?: _is_motor_enable?,
+          leds_values: _leds_values,
           left_motor_state: _left_motor_state,
           light_sensors_values: _light_sensors_values,
-          right_motor_state: _right_motor_state
+          right_motor_state: _right_motor_state,
+          switches_values: _switches_values
         } = message,
         socket
       ) do
