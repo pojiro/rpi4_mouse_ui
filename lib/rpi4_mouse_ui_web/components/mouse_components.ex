@@ -87,10 +87,10 @@ defmodule Rpi4MouseUiWeb.MouseComponents do
   def speed_gauge_l(assigns) do
     ~H"""
     <.speed_gauge_impl
-      location="top-[250px] left-[0px] -translate-x-full"
-      height={"#{to_height_px(@velocity)}"}
-      top={"#{to_top_px(@velocity)}"}
-      bg_color={"#{to_color(@velocity)}"}
+      location="left-[0px] -translate-x-full"
+      height={"#{to_height_px(@velocity_percent)}"}
+      top={"#{to_top_px(@velocity_percent)}"}
+      bg_color={"#{to_color(@velocity_percent)}"}
     />
     """
   end
@@ -98,10 +98,10 @@ defmodule Rpi4MouseUiWeb.MouseComponents do
   def speed_gauge_r(assigns) do
     ~H"""
     <.speed_gauge_impl
-      location="top-[250px] right-[0px] translate-x-full"
-      height={"#{to_height_px(@velocity)}"}
-      top={"#{to_top_px(@velocity)}"}
-      bg_color={"#{to_color(@velocity)}"}
+      location="right-[0px] translate-x-full"
+      height={"#{to_height_px(@velocity_percent)}"}
+      top={"#{to_top_px(@velocity_percent)}"}
+      bg_color={"#{to_color(@velocity_percent)}"}
     />
     """
   end
@@ -109,27 +109,31 @@ defmodule Rpi4MouseUiWeb.MouseComponents do
   defp speed_gauge_impl(assigns) do
     ~H"""
     <div
-      class={["absolute w-[30px] bg-green-500", @location]}
+      class={["w-[30px] transition-all absolute", @location]}
       style={["height: #{@height}; top: #{@top}; background-color: #{@bg_color}"]}
     >
     </div>
     """
   end
 
-  defp to_height_px(velocity) do
-    "#{round(abs(velocity) * 150)}px"
+  defp to_height_px(percent) do
+    "#{round(abs(percent / 100) * 150)}px"
   end
 
-  defp to_top_px(velocity) do
-    if velocity > 0 do
-      "#{250 - round(abs(velocity) * 150)}px"
+  defp to_top_px(percent) do
+    if percent > 0 do
+      "#{250 - round(abs(percent / 100) * 150)}px"
     else
       "250px"
     end
   end
 
-  defp to_color(velocity) do
-    if velocity > 0, do: "rgb(37 99 235)", else: "rgb(220 38 38)"
+  defp to_color(percent) do
+    cond do
+      percent > 0 -> "rgb(37 99 235)"
+      percent < 0 -> "rgb(220 38 38)"
+      true -> "transparent"
+    end
   end
 
   def pwm_hz_l(assigns) do
