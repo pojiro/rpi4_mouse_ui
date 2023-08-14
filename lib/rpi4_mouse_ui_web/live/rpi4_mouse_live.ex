@@ -20,8 +20,12 @@ defmodule Rpi4MouseUiWeb.Rpi4MouseLive do
           <MouseComponents.sw1 value={@switches_values.switch1} />
           <MouseComponents.sw2 value={@switches_values.switch2} />
           <MouseComponents.light_sensors values={@light_sensors_values} />
-          <MouseComponents.speed_gauge_l velocity={to_velocity_percent(@left_motor_state.velocity)} />
-          <MouseComponents.speed_gauge_r velocity={to_velocity_percent(@right_motor_state.velocity)} />
+          <MouseComponents.speed_gauge_l velocity_percent={
+            to_velocity_percent(@left_motor_state.velocity)
+          } />
+          <MouseComponents.speed_gauge_r velocity_percent={
+            to_velocity_percent(@right_motor_state.velocity)
+          } />
           <MouseComponents.pwm_hz_l pwm_hz={@left_motor_state.pwm_hz} />
           <MouseComponents.pwm_hz_r pwm_hz={@right_motor_state.pwm_hz} />
           <MouseComponents.velocity_l velocity={to_velocity_cm_per_sec(@left_motor_state.velocity)} />
@@ -90,7 +94,7 @@ defmodule Rpi4MouseUiWeb.Rpi4MouseLive do
   end
 
   defp to_velocity_cm_per_sec(velocity) when is_integer(velocity) do
-    velocity
+    to_velocity_cm_per_sec(velocity * 1.0)
   end
 
   defp to_velocity_cm_per_sec(velocity) when is_float(velocity) do
@@ -98,11 +102,11 @@ defmodule Rpi4MouseUiWeb.Rpi4MouseLive do
   end
 
   defp to_velocity_percent(velocity) when is_integer(velocity) do
-    velocity * 1.0
+    to_velocity_percent(velocity * 1.0)
   end
 
   defp to_velocity_percent(velocity) when is_float(velocity) do
-    Float.round(velocity / @max_velocity_m_per_sec, 3)
+    round(velocity / @max_velocity_m_per_sec * 100)
   end
 
   defp momo_test_src(html_file_name \\ "test.html") do

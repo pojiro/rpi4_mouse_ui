@@ -88,9 +88,9 @@ defmodule Rpi4MouseUiWeb.MouseComponents do
     ~H"""
     <.speed_gauge_impl
       location="left-[0px] -translate-x-full"
-      height={"#{to_height_px(@velocity)}"}
-      top={"#{to_top_px(@velocity)}"}
-      bg_color={"#{to_color(@velocity)}"}
+      height={"#{to_height_px(@velocity_percent)}"}
+      top={"#{to_top_px(@velocity_percent)}"}
+      bg_color={"#{to_color(@velocity_percent)}"}
     />
     """
   end
@@ -99,9 +99,9 @@ defmodule Rpi4MouseUiWeb.MouseComponents do
     ~H"""
     <.speed_gauge_impl
       location="right-[0px] translate-x-full"
-      height={"#{to_height_px(@velocity)}"}
-      top={"#{to_top_px(@velocity)}"}
-      bg_color={"#{to_color(@velocity)}"}
+      height={"#{to_height_px(@velocity_percent)}"}
+      top={"#{to_top_px(@velocity_percent)}"}
+      bg_color={"#{to_color(@velocity_percent)}"}
     />
     """
   end
@@ -116,20 +116,24 @@ defmodule Rpi4MouseUiWeb.MouseComponents do
     """
   end
 
-  defp to_height_px(velocity) do
-    "#{round(abs(velocity) * 150)}px"
+  defp to_height_px(percent) do
+    "#{round(abs(percent / 100) * 150)}px"
   end
 
-  defp to_top_px(velocity) do
-    if velocity > 0 do
-      "#{250 - round(abs(velocity) * 150)}px"
+  defp to_top_px(percent) do
+    if percent > 0 do
+      "#{250 - round(abs(percent / 100) * 150)}px"
     else
       "250px"
     end
   end
 
-  defp to_color(velocity) do
-    if velocity > 0, do: "rgb(37 99 235)", else: "rgb(220 38 38)"
+  defp to_color(percent) do
+    cond do
+      percent > 0 -> "rgb(37 99 235)"
+      percent < 0 -> "rgb(220 38 38)"
+      true -> "transparent"
+    end
   end
 
   def pwm_hz_l(assigns) do
