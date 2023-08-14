@@ -35,13 +35,22 @@ defmodule Rpi4MouseUiWeb.Rpi4MouseLive do
           width: 350px; を加えたファイル w350.html を作成すること
         -->
         <iframe src={momo_test_src("w350.html")} class="w-[380px] h-[380px]" />
-        <a
-          href={momo_test_src()}
-          target="_blank"
-          class="w-24 rounded m-2 p-2 bg-blue-500 text-bold text-white text-center"
-        >
-          Open Tab
-        </a>
+        <div class="flex">
+          <a
+            href={momo_test_src()}
+            target="_blank"
+            class="w-24 rounded m-2 p-2 bg-blue-500 text-bold text-white text-center"
+          >
+            Camera
+          </a>
+          <a
+            href="/dev/dashboard"
+            target="_blank"
+            class="w-24 rounded m-2 p-2 bg-blue-500 text-bold text-white text-center"
+          >
+            Dashboard
+          </a>
+        </div>
       </div>
     </div>
     """
