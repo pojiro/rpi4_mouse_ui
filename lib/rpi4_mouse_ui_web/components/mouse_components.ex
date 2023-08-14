@@ -117,14 +117,14 @@ defmodule Rpi4MouseUiWeb.MouseComponents do
   end
 
   defp to_height_px(velocity) do
-    "#{round(abs(velocity) / 26.9 * 150)}px"
+    "#{round(abs(velocity) * 150)}px"
   end
 
   defp to_top_px(velocity) do
     if velocity > 0 do
-      "#{250 - round(abs(velocity) / 26.9 * 150)}px"
+      "#{250 - round(abs(velocity) * 150)}px"
     else
-      "250 px"
+      "250px"
     end
   end
 
@@ -194,7 +194,7 @@ defmodule Rpi4MouseUiWeb.MouseComponents do
       "flex flex-col justify-center",
       @location
     ]}>
-      <%= render_slot(@inner_block) %> m/s
+      <%= render_slot(@inner_block) %> cm/s
     </div>
     """
   end

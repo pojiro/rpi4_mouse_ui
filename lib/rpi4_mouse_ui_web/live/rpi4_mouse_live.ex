@@ -5,6 +5,8 @@ defmodule Rpi4MouseUiWeb.Rpi4MouseLive do
 
   alias Rpi4MouseUiWeb.MouseComponents
 
+  @max_velocity_m_per_sec 0.645225
+
   def render(assigns) do
     ~H"""
     <div class="flex gap-x-[50px]">
@@ -18,12 +20,12 @@ defmodule Rpi4MouseUiWeb.Rpi4MouseLive do
           <MouseComponents.sw1 value={@switches_values.switch1} />
           <MouseComponents.sw2 value={@switches_values.switch2} />
           <MouseComponents.light_sensors values={@light_sensors_values} />
-          <MouseComponents.speed_gauge_l velocity={round_velocity(@left_motor_state.velocity)} />
-          <MouseComponents.speed_gauge_r velocity={round_velocity(@right_motor_state.velocity)} />
+          <MouseComponents.speed_gauge_l velocity={to_velocity_percent(@left_motor_state.velocity)} />
+          <MouseComponents.speed_gauge_r velocity={to_velocity_percent(@right_motor_state.velocity)} />
           <MouseComponents.pwm_hz_l pwm_hz={@left_motor_state.pwm_hz} />
           <MouseComponents.pwm_hz_r pwm_hz={@right_motor_state.pwm_hz} />
-          <MouseComponents.velocity_l velocity={round_velocity(@left_motor_state.velocity)} />
-          <MouseComponents.velocity_r velocity={round_velocity(@right_motor_state.velocity)} />
+          <MouseComponents.velocity_l velocity={to_velocity_cm_per_sec(@left_motor_state.velocity)} />
+          <MouseComponents.velocity_r velocity={to_velocity_cm_per_sec(@right_motor_state.velocity)} />
         </div>
       </div>
       <div class="flex flex-col">
@@ -87,12 +89,20 @@ defmodule Rpi4MouseUiWeb.Rpi4MouseLive do
     {:noreply, assign(socket, message)}
   end
 
-  defp round_velocity(velocity) when is_integer(velocity) do
-    0.0
+  defp to_velocity_cm_per_sec(velocity) when is_integer(velocity) do
+    velocity
   end
 
-  defp round_velocity(velocity) when is_float(velocity) do
-    Float.round(velocity, 1)
+  defp to_velocity_cm_per_sec(velocity) when is_float(velocity) do
+    round(velocity * 100)
+  end
+
+  defp to_velocity_percent(velocity) when is_integer(velocity) do
+    velocity * 1.0
+  end
+
+  defp to_velocity_percent(velocity) when is_float(velocity) do
+    Float.round(velocity / @max_velocity_m_per_sec, 3)
   end
 
   defp momo_test_src(html_file_name \\ "test.html") do
