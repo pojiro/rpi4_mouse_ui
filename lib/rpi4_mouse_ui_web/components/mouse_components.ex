@@ -87,7 +87,7 @@ defmodule Rpi4MouseUiWeb.MouseComponents do
   def speed_gauge_l(assigns) do
     ~H"""
     <.speed_gauge_impl
-      location="top-[250px] left-[0px] -translate-x-full"
+      location="left-[0px] -translate-x-full"
       height={"#{to_height_px(@velocity)}"}
       top={"#{to_top_px(@velocity)}"}
       bg_color={"#{to_color(@velocity)}"}
@@ -98,7 +98,7 @@ defmodule Rpi4MouseUiWeb.MouseComponents do
   def speed_gauge_r(assigns) do
     ~H"""
     <.speed_gauge_impl
-      location="top-[250px] right-[0px] translate-x-full"
+      location="right-[0px] translate-x-full"
       height={"#{to_height_px(@velocity)}"}
       top={"#{to_top_px(@velocity)}"}
       bg_color={"#{to_color(@velocity)}"}
@@ -109,7 +109,7 @@ defmodule Rpi4MouseUiWeb.MouseComponents do
   defp speed_gauge_impl(assigns) do
     ~H"""
     <div
-      class={["absolute w-[30px] bg-green-500", @location]}
+      class={["w-[30px] transition-all absolute", @location]}
       style={["height: #{@height}; top: #{@top}; background-color: #{@bg_color}"]}
     >
     </div>
