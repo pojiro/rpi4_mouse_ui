@@ -40,10 +40,10 @@ defmodule Rpi4MouseUiWeb.Rpi4MouseLive do
           <video id="remote_video" autoplay style="border: 3px solid gray;"></video> に
           width: 350px; を加えたファイル w350.html を作成すること
         -->
-        <iframe src={momo_test_src("w350.html")} class="w-[380px] h-[380px]" />
+        <iframe src={momo_p2p_src("w350.html")} class="w-[380px] h-[380px]" />
         <div class="flex">
           <a
-            href={momo_test_src()}
+            href={momo_p2p_src()}
             target="_blank"
             class="w-24 rounded m-2 p-2 bg-blue-500 text-bold text-white text-center"
           >
@@ -109,7 +109,7 @@ defmodule Rpi4MouseUiWeb.Rpi4MouseLive do
     round(velocity / @max_velocity_m_per_sec * 100)
   end
 
-  defp momo_test_src(html_file_name \\ "test.html") do
+  defp momo_p2p_src(html_file_name \\ "p2p.html") do
     case Application.get_env(:rpi4_mouse_ui, :target, :host) do
       :host -> "http://localhost:8080/html/#{html_file_name}"
       _ -> "http://nerves.local:8080/html/#{html_file_name}"
